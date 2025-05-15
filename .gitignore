@@ -1,0 +1,16 @@
+# Ignore OS & IDE files
+.DS_Store
+Thumbs.db
+*.log
+
+# VSCode & other editors
+.vscode/
+.idea/
+
+# Node / Python / Others (in case you expand the project)
+node_modules/
+__pycache__/
+.env
+
+# GitHub Pages artifacts
+_site/
