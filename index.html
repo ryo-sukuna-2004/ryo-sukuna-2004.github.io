@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryo Sukuna | Anime x Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background-image: url('https://wallpapercave.com/wp/wp7418473.jpg');
+      background-size: cover;
+      background-position: center;
+      transition: background 0.5s ease;
+    }
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      width: 100%;
+      padding: 40px 0;
+      text-align: center;
+      border-bottom: 2px solid #ff007f;
+      box-shadow: 0 0 15px #ff007f77;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      margin: 0;
+      color: #ff007f;
+      text-shadow: 0 0 15px #ff007f;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff007f; }
+      to { text-shadow: 0 0 20px #ff66b2; }
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+    main {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 15px;
+      margin: 40px 0;
+      max-width: 900px;
+      box-shadow: 0 0 30px #00ffe099;
+      width: 90%;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid #ff007f;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #ff007f55;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #ff007f99;
+    }
+    .card h2 {
+      color: #00ffe0;
+      border-bottom: 1px dashed #00ffe0;
+      padding-bottom: 5px;
+    }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #00ffe0;
+    }
+    .insta-follow {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .insta-follow button {
+      background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
+      color: white;
+      font-weight: bold;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px #fcb04599;
+    }
+    .insta-follow button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #fcb045cc;
+    }
+    .terminal {
+      background: #0d0d0d;
+      color: #00ff88;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: 30px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      box-shadow: 0 0 10px #00ff8866;
+      overflow-x: auto;
+    }
+    #github-projects li {
+      margin: 8px 0;
+      transition: transform 0.2s ease;
+    }
+    #github-projects li:hover {
+      transform: translateX(5px);
+      color: #00ffe0;
+    }
+    .toggle-theme {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff007f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff007f99;
+      transition: background 0.3s ease;
+    }
+    .toggle-theme:hover {
+      background: #ff3399;
+    }
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      color: #ccc;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .contact-card {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .contact-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00ffe0;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 45%;
+      box-shadow: 0 0 15px #00ffe055;
+      transition: transform 0.3s ease;
+    }
+    .contact-item:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+  <header>
+    <h1>👾 Ryo Sukuna</h1>
+    <p>Code like a curse, dream like anime ❤️‍🔥</p>
+  </header>
+  <main>
+    <div class="card">
+      <h2>✨ About Me</h2>
+      <p>I’m <strong>Ryo Sukuna</strong>, an anime spirit in a coder's world. I create tools, scripts, and websites inspired by anime aesthetics & cyberpunk vibes.</p>
+    </div>
+
+    <div class="card">
+      <h2>💻 Code Snippet:</h2>
+      <div class="terminal">
+        <pre><code>$ git clone https://github.com/ryo-sukuna-2004/anime-tools.git
+$ cd anime-tools
+$ ./install.sh</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🚀 My Latest GitHub Projects</h2>
+      <ul id="github-projects">
+        <li>Loading projects...</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>📬 Contact Me</h2>
+      <div class="contact-card">
+        <div class="contact-item">
+          <h3>Instagram</h3>
+          <p><a href="https://instagram.com/ryo_sukuna_2004" target="_blank">@ryo_sukuna_2004</a></p>
+        </div>
+        <div class="contact-item">
+          <h3>Telegram</h3>
+          <p><a href="https://t.me/sukuna1971" target="_blank">@sukuna1971</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="insta-follow">
+      <h2>📸 Follow Me on Instagram</h2>
+      <a href="https://instagram.com/ryo_sukuna_2004" target="_blank">
+        <button>@ryo_sukuna_2004</button>
+      </a>
+    </div>
+  </main>
+  <footer>
+    © 2025 Ryo Sukuna — Crafted with 💻 and ❤️ under the neon lights of Akihabara.
+  </footer>
+
+  <script>
+    const username = 'ryo-sukuna-2004';
+
+    async function fetchRepos() {
+      const response = await fetch(`https://api.github.com/users/${username}/repos`);
+      const repos = await response.json();
+      const projectsList = document.getElementById('github-projects');
+      projectsList.innerHTML = '';
+
+      repos.slice(0, 5).forEach(repo => {
+        const item = document.createElement('li');
+        item.innerHTML = `🔗 <a href="${repo.html_url}" target="_blank">${repo.name}</a> - ⭐ ${repo.stargazers_count}`;
+        projectsList.appendChild(item);
+      });
+    }
+    fetchRepos();
+
+    function toggleTheme() {
+      const body = document.body;
+      if (body.style.background.includes('0f0c29')) {
+        body.style.background = 'linear-gradient(to bottom, #232526, #414345)';
+      } else {
+        body.style.background = 'linear-gradient(to bottom, #0f0c29, #302b63, #24243e)';
+      }
+    }
+  </script>
+</body>
+</html>
