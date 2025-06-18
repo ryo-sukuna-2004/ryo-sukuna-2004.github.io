@@ -1,49 +1,60 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ryo Sukuna | Anime x Code</title>
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Fira+Code&display=swap" rel="stylesheet">
+  <!-- Social Cards & SEO -->
+  <meta name="description" content="Ryo Sukuna | Anime x Code - Portfolio and blog fusing anime aesthetics with cyberpunk tech, featuring projects, blogs, and more.">
+  <meta property="og:title" content="Ryo Sukuna | Anime x Code">
+  <meta property="og:description" content="A fusion of anime and code. Portfolio, blog, and interactive features.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/109360162?v=4">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="manifest.json">
+  <!-- PWA -->
+  <meta name="theme-color" content="#0f0c29"/>
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.3.0/tsparticles.bundle.min.js"></script>
+  <!-- Anime.js for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <style>
+    /* Reset and global styles */
+    html, body { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
       font-family: 'Fira Code', monospace;
       background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
       color: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       min-height: 100vh;
-      background-image: url('https://wallpapercave.com/wp/wp7418473.jpg');
-      background-size: cover;
-      background-position: center;
-      transition: background 0.5s, color 0.5s;
       overflow-x: hidden;
-    }
-    /* Theme Styles */
-    body.theme-anime {
-      background: linear-gradient(to bottom, #161a2a, #5f366e, #1e1f40);
-      color: #f6e5ff;
-      background-image: url('https://wallpapercave.com/wp/wp7418473.jpg');
-    }
-    body.theme-cyberpunk {
-      background: linear-gradient(120deg, #0f2027 0%, #2c5364 100%);
-      color: #00ffe0;
-      background-image: url('https://wallpapercave.com/wp/wp6535196.jpg');
-    }
-    body.theme-light {
-      background: linear-gradient(to bottom, #f8fafc, #e1e8ed);
-      color: #1a1a1a;
-      background-image: none;
+      transition: background 0.5s, color 0.5s;
     }
 
+    /* ----- Glassmorphism Panels ----- */
+    .glass {
+      background: rgba(30, 16, 50, 0.75);
+      border-radius: 16px;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.27);
+      border: 1.5px solid rgba(255,255,255,0.14);
+    }
+
+    /* ----- Custom Scrollbar ----- */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(120deg,#ff007f,#00ffe0 80%);
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-track { background: #181a2b; }
+
+    /* ----- Theme Switcher ----- */
     .theme-switcher {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 1001;
-      display: flex;
-      gap: 10px;
+      position: fixed; top: 20px; right: 24px; z-index: 1001;
+      display: flex; gap: 10px;
     }
     .theme-switcher button {
       background: #222;
@@ -52,7 +63,7 @@
       border-radius: 50%;
       width: 38px;
       height: 38px;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: border 0.2s, background 0.2s;
     }
@@ -61,224 +72,212 @@
       background: #111;
     }
 
-    /* Preloader */
-    #preloader {
-      position: fixed;
-      left: 0; top: 0; width: 100vw; height: 100vh;
-      background: rgba(10,12,40,0.96);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.4s;
+    /* ----- Animated Hero Section ----- */
+    .hero {
+      width: 100vw;
+      height: 55vh;
+      min-height: 340px;
+      background: linear-gradient(120deg, #0f0c29 60%, #833ab4 120%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
-    #preloader.hidden {
-      opacity: 0; pointer-events: none;
-    }
-    .loader {
-      border: 6px solid #ff007f;
-      border-top: 6px solid #00ffe0;
-      border-radius: 50%;
-      width: 60px; height: 60px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .loader-text {
-      color: #ff007f;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.1rem;
-      text-shadow: 0 0 5px #ff007f99;
-    }
-
-    /* Floating Cursor */
-    .custom-cursor {
-      position: fixed;
-      left: 0; top: 0;
-      width: 32px; height: 32px;
-      border: 2px solid #ff007f;
-      border-radius: 50%;
-      background: rgba(0,255,224,0.07);
-      pointer-events: none;
-      mix-blend-mode: lighten;
-      z-index: 10000;
-      transition: background 0.2s, border 0.2s;
-      will-change: transform;
-    }
-
-    header {
-      background: rgba(0, 0, 0, 0.8);
-      width: 100%;
-      padding: 40px 0;
+    .hero-content {
       text-align: center;
-      border-bottom: 2px solid #ff007f;
-      box-shadow: 0 0 10px #ff007f77;
+      color: #fff;
+      z-index: 2;
     }
-    header h1 {
+    .hero-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      margin: 0;
+      font-size: 3.2rem;
       color: #ff007f;
-      text-shadow: 0 0 10px #ff007f;
+      text-shadow: 0 0 32px #ff007f, 0 0 6px #fff;
+      margin-bottom: 0.3em;
     }
-    header p {
-      font-size: 1.2rem;
-      color: #aaa;
+    .hero-desc {
+      font-size: 1.25rem;
+      color: #e1e1e1;
+      margin-bottom: 1.2em;
     }
+    .hero-avatar {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      border: 4px solid #00ffe0;
+      box-shadow: 0 0 32px #00ffe055;
+      margin: 0 auto 1.3em auto;
+      display: block;
+      animation: avatarGlow 2.5s infinite alternate;
+    }
+    @keyframes avatarGlow {
+      0% { box-shadow: 0 0 24px #ff007f99; }
+      100% { box-shadow: 0 0 38px #00ffe099; }
+    }
+
+    /* ----- Glass Standout Description ----- */
     .standout-desc {
-      margin: 30px auto 0;
-      background: rgba(30, 16, 50, 0.8);
-      border-left: 6px solid #00ffe0;
-      padding: 20px 32px;
-      border-radius: 12px;
-      font-size: 1.17rem;
-      max-width: 900px;
-      box-shadow: 0 0 16px #00ffe055;
+      margin: -60px auto 0;
+      padding: 24px 36px;
+      max-width: 920px;
+      font-size: 1.18rem;
       color: #fff;
       font-family: 'Fira Code', monospace;
+      box-shadow: 0 0 16px #00ffe055;
+      border-left: 6px solid #00ffe0;
+      position: relative;
+      z-index: 11;
     }
+    .standout-desc.speech-bubble:after {
+      content: '';
+      position: absolute; left: 3em; top: 100%;
+      border-width: 22px 16px 0 16px;
+      border-style: solid;
+      border-color: #1e103280 transparent transparent transparent;
+      filter: blur(0.4px);
+    }
+
+    /* ----- Main Content ----- */
     main {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 40px;
-      border-radius: 15px;
-      margin: 40px;
-      max-width: 900px;
-      box-shadow: 0 0 25px #00ffe099;
+      margin: 48px auto 0 auto;
+      max-width: 970px;
+      padding: 0 12px;
+      z-index: 2;
+      position: relative;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #ff007f;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ff007f33;
-    }
-    .card h2 {
-      color: #00ffe0;
-    }
-    a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+      margin: 38px 0;
+      padding: 26px 36px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #00ffe055;
+      border: 1.5px solid #ff007f99;
+      transition: box-shadow 0.3s, border 0.3s;
+      position: relative;
     }
 
-    .insta-follow {
-      text-align: center;
-      margin-top: 30px;
-    }
-    .insta-follow button {
-      background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
-      color: white;
-      font-weight: bold;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .insta-follow button:hover {
-      transform: scale(1.05);
-    }
-    .terminal {
-      background: #0d0d0d;
-      color: #00ff88;
-      padding: 15px;
-      font-size: 0.9rem;
-      margin-top: 30px;
-      border-radius: 10px;
-      font-family: 'Fira Code', monospace;
-      box-shadow: 0 0 10px #00ff8866;
+    .card:hover {
+      box-shadow: 0 0 32px #ff007faa;
+      border: 1.5px solid #00ffe0;
     }
 
-    /* Skill Bars */
-    .skills-section {
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
-    .skills-bar {
-      margin: 10px 0 24px 0;
-    }
+    /* ----- Skills Animated Bars ----- */
+    .skills-bar { margin: 10px 0 24px 0; }
     .skill-label {
-      color: #00ffe0;
-      font-family: 'Fira Code', monospace;
-      font-size: 1.06rem;
-      margin-bottom: 2px;
+      color: #00ffe0; font-size: 1.1rem; margin-bottom: 2px;
     }
     .skill-bar-outer {
       background: #333;
       border-radius: 8px;
-      height: 18px;
-      width: 100%;
-      margin-bottom: 6px;
-      overflow: hidden;
+      height: 18px; width: 100%;
+      margin-bottom: 6px; overflow: hidden;
       box-shadow: 0 0 5px #00ffe033 inset;
+      position: relative;
     }
     .skill-bar-inner {
       height: 100%;
       border-radius: 8px;
       background: linear-gradient(90deg, #00ffe0, #ff007fbb 80%);
       width: 0;
-      transition: width 1.5s cubic-bezier(.68,-0.6,.32,1.6);
+      transition: width 2s cubic-bezier(.68,-0.6,.32,1.6);
+      position: relative;
+      z-index: 1;
+    }
+    .skill-bar-number {
+      font-size: 0.93rem;
+      color: #fff;
+      position: absolute;
+      right: 12px; top: 1px;
+      z-index: 2;
+      opacity: 0.8;
+      pointer-events: none;
     }
 
-    /* Timeline */
+    /* ----- Timeline Interactive ----- */
     .timeline {
-      position: relative;
-      margin: 40px 0 30px 0;
-      padding-left: 30px;
-      border-left: 2px solid #00ffe0;
+      display: flex;
+      overflow-x: auto;
+      gap: 30px;
+      padding: 14px 0 10px 0;
+      scrollbar-width: thin;
     }
     .timeline-event {
-      margin-bottom: 30px;
+      min-width: 210px;
+      background: rgba(30, 16, 50, 0.8);
+      border-left: 5px solid #00ffe0;
+      border-radius: 11px;
+      padding: 18px 22px;
+      margin-bottom: 10px;
       position: relative;
+      transition: box-shadow 0.2s;
+      box-shadow: 0 0 8px #00ffe022;
+      cursor: pointer;
     }
-    .timeline-event::before {
-      content: '';
-      position: absolute;
-      left: -11px; top: 7px;
-      width: 16px; height: 16px;
-      background: #ff007f;
-      border-radius: 50%;
-      border: 3px solid #00ffe0;
-      box-shadow: 0 0 10px #00ffe055;
+    .timeline-event.active {
+      box-shadow: 0 0 18px #ff007f77;
+      border-color: #ff007f;
     }
-    .timeline-title {
-      font-weight: bold;
-      color: #00ffe0;
-      font-size: 1.13rem;
-    }
-    .timeline-desc {
-      color: #f2f2f2;
-      font-size: 1rem;
-      margin-left: 5px;
-    }
+    .timeline-title { font-weight: bold; color: #00ffe0; font-size: 1.12rem; }
+    .timeline-desc { color: #f2f2f2; font-size: 1rem; margin-left: 5px; }
 
-    /* Testimonials */
-    .testimonials-section {
-      margin-top: 40px;
-      margin-bottom: 20px;
-    }
+    /* ----- Testimonials: Anime Bubbles ----- */
     .testimonial {
       background: rgba(30, 16, 50, 0.8);
       border-left: 5px solid #ff007f;
       margin: 10px 0;
       padding: 16px 28px;
       font-style: italic;
-      border-radius: 10px;
+      border-radius: 18px 18px 18px 0;
       color: #fff;
+      position: relative;
+      box-shadow: 0 0 10px #ff007f55;
+    }
+    .testimonial:after {
+      content: '';
+      position: absolute; left: 22px; top: 100%;
+      border-width: 20px 14px 0 14px;
+      border-style: solid;
+      border-color: #1e103288 transparent transparent transparent;
+      filter: blur(0.6px);
     }
     .testimonial .author {
-      font-weight: bold;
-      color: #00ffe0;
-      margin-top: 6px;
-      font-style: normal;
+      font-weight: bold; color: #00ffe0; margin-top: 6px;
       font-size: 0.97rem;
+      font-style: normal;
     }
 
-    /* Tech Stack */
+    /* ----- Projects: Live Demos ----- */
+    .project-card {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid #00ffe0;
+      border-radius: 10px;
+      padding: 18px 22px;
+      min-width: 220px;
+      min-height: 120px;
+      box-shadow: 0 0 10px #00ffe033;
+      flex: 1 1 220px;
+      transition: box-shadow 0.2s, border 0.2s;
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .project-card:hover {
+      box-shadow: 0 0 20px #ff007f77;
+      border: 1.5px solid #ff007f;
+    }
+    .project-title {
+      font-size: 1.12rem; color: #00ffe0;
+      margin-bottom: 7px;
+    }
+    .project-demo {
+      margin: 12px 0;
+    }
+    .project-demo video, .project-demo img {
+      width: 100%; border-radius: 8px; box-shadow: 0 0 8px #00ffe022;
+      display: block;
+    }
+
+    /* ----- Tech Stack: Animated ----- */
     .tech-stack {
       display: flex;
       flex-wrap: wrap;
@@ -293,11 +292,19 @@
       padding: 18px 14px;
       font-size: 2rem;
       color: #00ffe0;
-      margin-bottom: 8px;
       min-width: 60px;
       text-align: center;
       box-shadow: 0 0 10px #00ffe022;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .tech-icon.animated {
+      animation: techIconBounce 0.8s infinite alternate;
+    }
+    @keyframes techIconBounce {
+      0% { transform: scale(1) rotate(-2deg);}
+      100% { transform: scale(1.15) rotate(6deg);}
     }
     .tech-icon:hover {
       transform: scale(1.12) rotate(-4deg);
@@ -306,73 +313,7 @@
       border-color: #ff007f;
     }
 
-    /* Floating Symbols */
-    .floating-symbol {
-      position: fixed;
-      pointer-events: none;
-      font-size: 2rem;
-      opacity: 0.47;
-      z-index: 0;
-      animation: floatSymbol 10s infinite linear;
-      color: #fff;
-      filter: drop-shadow(0 0 8px #ff007f88);
-      user-select: none;
-      transition: opacity 0.3s;
-    }
-    @keyframes floatSymbol {
-      0%   { transform: translateY(0) scale(1) rotate(0deg); }
-      50%  { transform: translateY(-60px) scale(1.1) rotate(8deg);}
-      100% { transform: translateY(0) scale(1) rotate(-8deg);}
-    }
-
-    /* Project Showcase */
-    .projects-section {
-      margin-top: 32px;
-      margin-bottom: 18px;
-    }
-    .project-showcase {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-      justify-content: flex-start;
-    }
-    .project-card {
-      background: rgba(255,255,255,0.06);
-      border: 1.5px solid #00ffe0;
-      border-radius: 10px;
-      padding: 18px 22px;
-      min-width: 220px;
-      min-height: 120px;
-      box-shadow: 0 0 10px #00ffe033;
-      flex: 1 1 220px;
-      transition: box-shadow 0.2s, border 0.2s;
-      position: relative;
-    }
-    .project-card:hover {
-      box-shadow: 0 0 20px #ff007f77;
-      border: 1.5px solid #ff007f;
-    }
-    .project-title {
-      font-size: 1.1rem;
-      color: #00ffe0;
-      font-family: 'Fira Code', monospace;
-      margin-bottom: 7px;
-    }
-    .project-desc {
-      color: #e1e1e1;
-      font-size: 0.98rem;
-      margin-bottom: 10px;
-    }
-    .project-link {
-      color: #ff007f;
-      font-weight: bold;
-      font-size: 0.97rem;
-    }
-
-    /* Blog Section */
-    .blog-section {
-      margin: 32px 0 12px 0;
-    }
+    /* ----- Blog Cards ----- */
     .blog-card {
       background: rgba(255,255,255,0.07);
       border-left: 4px solid #00ffe0;
@@ -386,13 +327,8 @@
       font-size: 1.12rem;
       font-family: 'Orbitron', sans-serif;
     }
-    .blog-desc {
-      color: #e1e1e1;
-      font-size: 1rem;
-      margin-bottom: 5px;
-    }
 
-    /* Forms */
+    /* ----- Forms: Glass and Responsive ----- */
     .form-section {
       margin: 32px 0 18px 0;
       background: rgba(30, 16, 50, 0.8);
@@ -403,9 +339,6 @@
       max-width: 650px;
       margin-left: auto;
       margin-right: auto;
-    }
-    .form-section h2 {
-      color: #00ffe0;
     }
     .form-input, .form-textarea {
       width: 100%;
@@ -455,44 +388,121 @@
       font-weight: bold;
     }
 
-    /* Responsive */
+    /* ----- Floating Custom Cursor ----- */
+    .custom-cursor {
+      position: fixed;
+      left: 0; top: 0;
+      width: 32px; height: 32px;
+      border: 2px solid #ff007f;
+      border-radius: 50%;
+      background: rgba(0,255,224,0.07);
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      z-index: 10000;
+      transition: background 0.2s, border 0.2s;
+      will-change: transform;
+    }
+
+    /* ----- Floating Symbols ----- */
+    .floating-symbol {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      opacity: 0.47;
+      z-index: 0;
+      animation: floatSymbol 10s infinite linear;
+      color: #fff;
+      filter: drop-shadow(0 0 8px #ff007f88);
+      user-select: none;
+      transition: opacity 0.3s;
+    }
+    @keyframes floatSymbol {
+      0%   { transform: translateY(0) scale(1) rotate(0deg); }
+      50%  { transform: translateY(-60px) scale(1.1) rotate(8deg);}
+      100% { transform: translateY(0) scale(1) rotate(-8deg);}
+    }
+
+    /* ----- Particle Background Container ----- */
+    #tsparticles { position: fixed; width: 100vw; height: 100vh; top:0; left:0; z-index: -2; }
+
+    /* ----- Music Toggle ----- */
+    .music-toggle {
+      position: fixed; bottom: 28px; right: 30px; z-index: 1005;
+      background: #181a2bcc;
+      border: 2px solid #ff007f;
+      border-radius: 32px;
+      padding: 10px 18px;
+      color: #00ffe0;
+      font-size: 1.1rem;
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border 0.2s;
+      box-shadow: 0 0 10px #ff007f33;
+      user-select: none;
+    }
+    .music-toggle.active { border: 2px solid #00ffe0; background: #0f0c29e6; }
+    .music-toggle:hover { border: 2px solid #00ffe0; background: #0f0c29d9; }
+
+    /* ----- Achievements/Badges ----- */
+    .achievements {
+      display: flex; gap: 16px; justify-content: center; margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: linear-gradient(120deg,#ff007f88,#00ffe088);
+      box-shadow: 0 0 6px #ff007f44;
+      color: #fff; border-radius: 23px;
+      padding: 8px 22px;
+      font-size: 1.02rem;
+      font-family: 'Fira Code', monospace;
+      font-weight: bold;
+      margin: 2px 0;
+      display: flex; align-items: center; gap: 7px;
+      opacity: 0.85;
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .badge.unlocked { opacity: 1; background: linear-gradient(120deg,#00ffe0,#ff007f); border: 2px solid #fff; }
+
+    /* ----- 404 and Footer ----- */
+    .notfound {
+      color: #ff007f; font-size: 1.7rem; margin-top: 40px; text-align: center;
+      font-family: 'Orbitron', sans-serif;
+    }
+    footer {
+      margin-top: 56px;
+      padding: 22px;
+      color: #ccc;
+      text-align: center;
+      font-size: 0.97rem;
+    }
+
+    /* ----- Responsive ----- */
     @media (max-width: 900px) {
-      main, .standout-desc { max-width: 98vw; padding: 20px !important;}
+      main, .standout-desc { max-width: 99vw; padding: 12px !important;}
+      .hero-title { font-size: 2.1rem; }
     }
     @media (max-width: 700px) {
       .tech-stack { gap: 10px; }
       .project-showcase { gap: 12px; }
-      .timeline { padding-left: 14px; }
+      .timeline { gap: 10px; }
       .form-section { padding: 10px; }
+      .music-toggle { bottom: 10px; right: 10px; }
     }
     @media (max-width: 480px) {
-      header h1 { font-size: 2rem;}
+      .hero-title { font-size: 1.4rem;}
       .standout-desc { font-size: 1rem; }
-    }
-
-    footer {
-      margin-top: auto;
-      padding: 20px;
-      color: #ccc;
-      text-align: center;
-      font-size: 0.9rem;
+      .card { padding: 14px 5px; }
     }
   </style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div id="preloader">
-    <div>
-      <div class="loader"></div>
-      <div class="loader-text">Loading Ryo Sukuna | Anime x Code...</div>
-    </div>
-  </div>
-
+  <!-- Particle Background -->
+  <div id="tsparticles"></div>
   <!-- Theme Switcher -->
-  <div class="theme-switcher">
-    <button id="theme-anime" title="Anime Mode">🌸</button>
-    <button id="theme-cyberpunk" title="Cyberpunk Mode">🤖</button>
-    <button id="theme-light" title="Light Mode">🌞</button>
+  <div class="theme-switcher" aria-label="Theme Switcher">
+    <button id="theme-anime" title="Anime Mode" aria-label="Anime Mode">🌸</button>
+    <button id="theme-cyberpunk" title="Cyberpunk Mode" aria-label="Cyberpunk Mode">🤖</button>
+    <button id="theme-light" title="Light Mode" aria-label="Light Mode">🌞</button>
   </div>
   <!-- Floating Custom Cursor -->
   <div class="custom-cursor" id="customCursor"></div>
@@ -505,88 +515,101 @@
   <span class="floating-symbol" style="left: 17%; top: 66%;">🌸</span>
   <span class="floating-symbol" style="left: 62%; top: 36%;">🦾</span>
 
-  <header>
-    <h1>👾 Ryo Sukuna</h1>
-    <p>Code like a curse, love like anime ❤️‍🔥</p>
-  </header>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <img class="hero-avatar" src="https://avatars.githubusercontent.com/u/109360162?v=4" alt="Ryo Sukuna avatar" />
+      <div class="hero-title" id="heroTitle">👾 Ryo Sukuna</div>
+      <div class="hero-desc" id="heroDesc">Code like a curse, love like anime ❤️‍🔥</div>
+    </div>
+  </section>
 
-  <!-- Standout Description about the Website -->
-  <div class="standout-desc">
-    <strong>Ryo Sukuna | Anime x Code</strong> stands out with its immersive fusion of anime aesthetics and cutting-edge web design. It features dynamic theme switching (<b>anime</b>, <b>cyberpunk</b>, and <b>light</b>), a smooth preloader animation, a floating custom cursor, and animated skill bars showcasing expertise in JavaScript, React, Python, and more. Visitors can explore interactive GitHub project showcases, read tech blogs on anime-inspired development, and follow a visually detailed coding journey timeline. The site includes contact and collaboration forms, a responsive tech stack display, user testimonials, and playful floating symbols, all wrapped in a cyber-anime UI that brings coding creativity to life.
+  <!-- Standout Description in Anime Speech Bubble -->
+  <div class="standout-desc glass speech-bubble">
+    <strong>Ryo Sukuna | Anime x Code</strong> stands out with its immersive fusion of anime aesthetics and cutting-edge web design. Dynamic themes, interactive particles, live project demos, and more — unleash your inner anime dev!
   </div>
 
+  <!-- Main Content -->
   <main>
-    <div class="card">
+    <!-- Who Am I Card -->
+    <div class="card glass" id="about">
       <h2>✨ Who Am I?</h2>
       <p>I’m <strong>Ryo Sukuna</strong>, an anime soul trapped in a programmer’s mind. I build tools, scripts, and websites inspired by anime culture & cyberpunk dreams.</p>
-    </div>
-    <div class="card">
-      <h2>💻 Code Snippet:</h2>
-      <div class="terminal">
-        <pre><code>$ git clone https://github.com/ryo-sukuna-2004/anime-tools.git
-
-$ cd anime-tools $ ./install.sh</code></pre>
+      <div class="achievements" id="achievements">
+        <!-- Example badges, dynamically unlocked via JS -->
+        <span class="badge" id="badge-explore"><span>🧭</span>Explored Projects</span>
+        <span class="badge" id="badge-timeline"><span>🕒</span>Viewed Timeline</span>
+        <span class="badge" id="badge-blog"><span>📖</span>Read a Blog</span>
       </div>
     </div>
 
-    <!-- Projects Showcase -->
-    <div class="card projects-section">
+    <!-- Projects Showcase Card with Live Demos -->
+    <div class="card glass projects-section" id="projects">
       <h2>🚀 Projects</h2>
-      <div class="project-showcase">
+      <div class="project-showcase" style="display:flex; flex-wrap:wrap; gap:28px;">
         <div class="project-card">
           <div class="project-title">🧭 WiFi Mapper (Shizuku-powered)</div>
           <div class="project-desc">Map and analyze WiFi networks on Android using Shizuku for rootless power.</div>
+          <div class="project-demo">
+            <img src="https://user-images.githubusercontent.com/109360162/277676940-1e2a1456-4b9f-44c7-9f6b-4c0e4a5d6ee0.gif" alt="WiFi Mapper demo"/>
+          </div>
           <a href="https://github.com/ryo-sukuna-2004/wifi-mapper" target="_blank" class="project-link">View on GitHub</a>
         </div>
         <div class="project-card">
           <div class="project-title">🌌 Anime Terminal Theme for Termux</div>
           <div class="project-desc">A cyber-anime themed prompt and color scheme for Termux & bash. Stylish and hackable!</div>
+          <div class="project-demo">
+            <img src="https://user-images.githubusercontent.com/109360162/277676945-4d909c9a-5fe3-4d1b-8f9b-4f0c5f8b1a8e.gif" alt="Anime Terminal Theme demo"/>
+          </div>
           <a href="https://github.com/ryo-sukuna-2004/anime-termux-theme" target="_blank" class="project-link">View on GitHub</a>
         </div>
         <div class="project-card">
           <div class="project-title">🎮 Game Modding Scripts</div>
           <div class="project-desc">Powerful scripts and tools for modding mobile and PC games, inspired by anime hacking scenes.</div>
+          <div class="project-demo">
+            <img src="https://user-images.githubusercontent.com/109360162/277676944-14f4f7e2-8a8e-4352-97a9-6a22170b0e7e.gif" alt="Game Modding demo"/>
+          </div>
           <a href="https://github.com/ryo-sukuna-2004/game-modding-scripts" target="_blank" class="project-link">View on GitHub</a>
         </div>
       </div>
     </div>
 
     <!-- Animated Skills -->
-    <div class="card skills-section">
+    <div class="card glass skills-section" id="skills">
       <h2>🛠️ Skills</h2>
       <div class="skills-bar">
         <div class="skill-label">JavaScript</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="90"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="90"></div><span class="skill-bar-number">0%</span></div>
         <div class="skill-label">React</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="85"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="85"></div><span class="skill-bar-number">0%</span></div>
         <div class="skill-label">Python</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="80"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="80"></div><span class="skill-bar-number">0%</span></div>
         <div class="skill-label">Shell Scripting</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="75"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="75"></div><span class="skill-bar-number">0%</span></div>
         <div class="skill-label">HTML/CSS</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="88"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="88"></div><span class="skill-bar-number">0%</span></div>
         <div class="skill-label">Git & GitHub</div>
-        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="82"></div></div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="82"></div><span class="skill-bar-number">0%</span></div>
       </div>
     </div>
 
-    <!-- Timeline -->
-    <div class="card">
+    <!-- Timeline Interactive -->
+    <div class="card glass" id="timeline">
       <h2>🕒 Coding Journey Timeline</h2>
-      <div class="timeline">
-        <div class="timeline-event">
+      <div class="timeline" id="timelineEvents">
+        <div class="timeline-event" tabindex="0">
           <div class="timeline-title">2021: Entered Anime x Code World</div>
           <div class="timeline-desc">Started blending anime flair into web development projects.</div>
         </div>
-        <div class="timeline-event">
+        <div class="timeline-event" tabindex="0">
           <div class="timeline-title">2022: Published WiFi Mapper</div>
           <div class="timeline-desc">Built and released a Shizuku-powered WiFi Mapper on GitHub.</div>
         </div>
-        <div class="timeline-event">
+        <div class="timeline-event" tabindex="0">
           <div class="timeline-title">2023: Launched Cyber-Anime Termux Theme</div>
           <div class="timeline-desc">My cyberpunk anime prompt for Termux went viral in the anime-dev community.</div>
         </div>
-        <div class="timeline-event">
+        <div class="timeline-event" tabindex="0">
           <div class="timeline-title">2024: Tech Blogging & Modding Scripts</div>
           <div class="timeline-desc">Started blogging about anime-inspired coding and released game modding tools.</div>
         </div>
@@ -594,7 +617,7 @@ $ cd anime-tools $ ./install.sh</code></pre>
     </div>
 
     <!-- Tech Stack -->
-    <div class="card">
+    <div class="card glass" id="techstack">
       <h2>⚙️ Tech Stack</h2>
       <div class="tech-stack">
         <span class="tech-icon" title="JavaScript">🟨 JS</span>
@@ -608,8 +631,8 @@ $ cd anime-tools $ ./install.sh</code></pre>
       </div>
     </div>
 
-    <!-- Testimonials -->
-    <div class="card testimonials-section">
+    <!-- Testimonials with Anime Bubbles -->
+    <div class="card glass testimonials-section" id="testimonials">
       <h2>🗣️ Testimonials</h2>
       <div class="testimonial">
         "Ryo's cyber-anime UI is the most creative site I've seen – it's like stepping into an anime hacker's lair!"
@@ -622,51 +645,50 @@ $ cd anime-tools $ ./install.sh</code></pre>
     </div>
 
     <!-- Blog Section -->
-    <div class="card blog-section">
+    <div class="card glass blog-section" id="blog">
       <h2>📖 Tech Blog</h2>
-      <div class="blog-card">
+      <div class="blog-card" tabindex="0">
         <div class="blog-title">How Anime Inspires My Coding Journey</div>
         <div class="blog-desc">A deep dive into how anime aesthetics and storytelling influence my approach to web design and development.</div>
         <a href="https://github.com/ryo-sukuna-2004/tech-blog" target="_blank" class="project-link">Read Blog</a>
       </div>
-      <div class="blog-card">
+      <div class="blog-card" tabindex="0">
         <div class="blog-title">Cyberpunk UI Tricks for Modern Websites</div>
         <div class="blog-desc">Tutorials and code snippets to give your web projects a futuristic, anime-inspired look.</div>
         <a href="https://github.com/ryo-sukuna-2004/tech-blog" target="_blank" class="project-link">Read Blog</a>
       </div>
     </div>
 
-    <!-- Contact & Collaboration Forms -->
-    <div class="form-section">
+    <!-- Contact & Collaboration Forms (Formspree action for static site) -->
+    <div class="form-section glass" id="contact">
       <h2>📬 Contact Me</h2>
-      <form id="contactForm" autocomplete="off">
+      <form id="contactForm" action="https://formspree.io/f/maykzvqy" method="POST" autocomplete="off">
         <div class="form-row">
-          <input class="form-input" type="text" id="name" name="name" placeholder="Your Name" required>
-          <input class="form-input" type="email" id="email" name="email" placeholder="Your Email" required>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your Name" required aria-label="Your Name">
+          <input class="form-input" type="email" id="email" name="email" placeholder="Your Email" required aria-label="Your Email">
         </div>
-        <textarea class="form-textarea" id="message" name="message" rows="4" placeholder="Your message..." required></textarea>
+        <textarea class="form-textarea" id="message" name="message" rows="4" placeholder="Your message..." required aria-label="Your Message"></textarea>
         <button class="form-btn" type="submit">Send Message</button>
         <div id="contactSuccess" class="contact-success" style="display:none;">
           Thank you for your message! 🚀
         </div>
       </form>
     </div>
-    <div class="form-section">
+    <div class="form-section glass" id="collab">
       <h2>🤝 Collaborate</h2>
-      <form id="collabForm" autocomplete="off">
+      <form id="collabForm" action="https://formspree.io/f/moqgpqpr" method="POST" autocomplete="off">
         <div class="form-row">
-          <input class="form-input" type="text" id="collabName" name="collabName" placeholder="Your Name" required>
-          <input class="form-input" type="email" id="collabEmail" name="collabEmail" placeholder="Your Email" required>
+          <input class="form-input" type="text" id="collabName" name="collabName" placeholder="Your Name" required aria-label="Your Name">
+          <input class="form-input" type="email" id="collabEmail" name="collabEmail" placeholder="Your Email" required aria-label="Your Email">
         </div>
-        <input class="form-input" type="text" id="project" name="project" placeholder="Project Idea / Link" required>
-        <textarea class="form-textarea" id="collabMessage" name="collabMessage" rows="3" placeholder="Short proposal..." required></textarea>
+        <input class="form-input" type="text" id="project" name="project" placeholder="Project Idea / Link" required aria-label="Project Idea or Link">
+        <textarea class="form-textarea" id="collabMessage" name="collabMessage" rows="3" placeholder="Short proposal..." required aria-label="Short Proposal"></textarea>
         <button class="form-btn" type="submit">Send Proposal</button>
         <div id="collabSuccess" class="contact-success" style="display:none;">
           Collab request sent! I'll get in touch soon. ✨
         </div>
       </form>
     </div>
-
     <div class="insta-follow">
       <h2>📸 تابعني على إنستقرام</h2>
       <a href="https://instagram.com/ryo_sukuna_2004" target="_blank">
@@ -674,35 +696,90 @@ $ cd anime-tools $ ./install.sh</code></pre>
       </a>
     </div>
   </main>
+
+  <!-- Music/Sound Toggle -->
+  <div class="music-toggle" id="musicToggle" tabindex="0">
+    <span id="musicIcon">🔊</span> Theme Music
+    <audio id="bgMusic" loop>
+      <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7a7e.mp3" type="audio/mp3">
+    </audio>
+  </div>
+
   <footer>
-    © 2025 Ryo Sukuna — Built with 💻 and 💖 under the moonlight of Akihabara.
+    © 2025 Ryo Sukuna — Built with 💻 and 💖 under the moonlight of Akihabara.<br>
+    <span style="font-size:0.9em; opacity:0.7;">Try pressing <b>Ctrl+K</b> for the command palette!</span>
   </footer>
+
+  <!-- Command Palette Modal -->
+  <div id="commandPalette" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:20001;background:rgba(15,12,41,0.89);backdrop-filter:blur(3px);align-items:center;justify-content:center;">
+    <div style="background:rgba(40,23,57,0.98);border-radius:13px;max-width:410px;width:95vw;margin:auto;padding:28px 18px;box-shadow:0 0 30px #00ffe055;">
+      <input id="paletteInput" placeholder="Type a command..." style="width:95%;padding:10px 14px;font-size:1.1em;border-radius:7px;border:1.5px solid #ff007f;background:#181a2b;color:#fff;margin-bottom:16px;outline:none;">
+      <div id="paletteResults" style="color:#fff;font-family:'Fira Code',monospace;"></div>
+      <button onclick="closePalette()" style="background:#ff007f;color:#fff;border:none;padding:7px 17px;border-radius:8px;margin-top:18px;cursor:pointer;">Close</button>
+    </div>
+  </div>
+
+  <!-- PWA Service Worker Registration -->
   <script>
-    // Preloader
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('preloader').classList.add('hidden');
-      }, 750);
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <!-- Main JS -->
+  <script>
+    // ----- Particle Background -----
+    tsParticles.load("tsparticles", {
+      background: { color: { value: "transparent" } },
+      fpsLimit: 60,
+      particles: {
+        color: { value: ["#ff007f", "#00ffe0", "#fff"] },
+        links: { enable: true, color: "#ff007f", distance: 66, opacity: 0.4 },
+        move: { enable: true, speed: 1.8, direction: "none", outModes: { default: "bounce" } },
+        number: { value: 55, density: { enable: true, area: 900 } },
+        opacity: { value: 0.43 },
+        shape: { type: ["circle", "star"] },
+        size: { value: { min: 2, max: 5 } }
+      },
+      detectRetina: true
     });
 
-    // Theme Switcher
+    // ----- Animated Hero Title -----
+    anime({
+      targets: "#heroTitle",
+      scale: [0.8, 1.1, 1],
+      opacity: [0, 1],
+      duration: 1500,
+      easing: "easeOutElastic(1, .7)"
+    });
+    anime({
+      targets: "#heroDesc",
+      translateY: [40, 0],
+      opacity: [0, 1],
+      delay: 600,
+      duration: 900,
+      easing: "easeOutCubic"
+    });
+
+    // ----- Theme Switcher -----
     function setTheme(theme) {
       document.body.classList.remove('theme-anime','theme-cyberpunk','theme-light');
       document.body.classList.add('theme-' + theme);
       document.querySelectorAll('.theme-switcher button').forEach(btn => btn.classList.remove('active'));
       document.getElementById('theme-' + theme).classList.add('active');
       localStorage.setItem('theme', theme);
+      // Animate transition
+      anime({ targets: 'body', opacity: [0.7,1], duration: 650, easing: "easeInOutQuad" });
     }
     document.getElementById('theme-anime').onclick = () => setTheme('anime');
     document.getElementById('theme-cyberpunk').onclick = () => setTheme('cyberpunk');
     document.getElementById('theme-light').onclick = () => setTheme('light');
     // Persistent Theme
-    (() => {
-      const saved = localStorage.getItem('theme') || 'anime';
-      setTheme(saved);
-    })();
+    (() => { const saved = localStorage.getItem('theme') || 'anime'; setTheme(saved); })();
 
-    // Floating Custom Cursor
+    // ----- Floating Custom Cursor -----
     const cursor = document.getElementById('customCursor');
     document.addEventListener('mousemove', e => {
       cursor.style.transform = `translate(${e.clientX-16}px,${e.clientY-16}px)`;
@@ -710,42 +787,182 @@ $ cd anime-tools $ ./install.sh</code></pre>
     document.addEventListener('mousedown', () => { cursor.style.background = 'rgba(255,0,127,0.13)'; cursor.style.borderColor = '#00ffe0';});
     document.addEventListener('mouseup', () => { cursor.style.background = 'rgba(0,255,224,0.07)'; cursor.style.borderColor = '#ff007f';});
 
-    // Animate Skill Bars
+    // ----- Animated Skill Bars -----
     function animateSkillBars() {
-      document.querySelectorAll('.skill-bar-inner').forEach(el => {
-        el.style.width = el.getAttribute('data-skill') + '%';
+      document.querySelectorAll('.skill-bar-inner').forEach((el,i) => {
+        let pct = el.getAttribute('data-skill');
+        el.style.width = pct + '%';
+        // Animate number
+        let number = el.parentElement.querySelector('.skill-bar-number');
+        let current = 0, target = parseInt(pct), step = 0;
+        clearInterval(number._intv);
+        number._intv = setInterval(() => {
+          if (current < target) {
+            current++;
+            number.textContent = current + "%";
+          } else {
+            clearInterval(number._intv);
+            number.textContent = target + "%";
+          }
+        }, 10 + i*2);
       });
     }
     let skillBarsAnimated = false;
     function handleScrollSkillBars() {
       const skills = document.querySelector('.skills-section');
-      if (!skillBarsAnimated && skills.getBoundingClientRect().top < window.innerHeight - 80) {
+      if (!skillBarsAnimated && skills.getBoundingClientRect().top < window.innerHeight - 60) {
         animateSkillBars();
         skillBarsAnimated = true;
+        unlockBadge("explore");
       }
     }
     window.addEventListener('scroll', handleScrollSkillBars);
     window.addEventListener('DOMContentLoaded', handleScrollSkillBars);
 
-    // Floating Symbols Animation Speed Randomization
+    // ----- Floating Symbols Animation Speed Randomization -----
     document.querySelectorAll('.floating-symbol').forEach((el, i) => {
       el.style.animationDuration = (7 + Math.random() * 6) + 's';
       el.style.opacity = (0.22 + Math.random() * 0.5).toFixed(2);
     });
 
-    // Dummy Contact Form Handler
+    // ----- Tech Stack Animated -----
+    document.querySelectorAll('.tech-icon').forEach((el, i) => {
+      el.addEventListener('mouseenter', () => el.classList.add('animated'));
+      el.addEventListener('mouseleave', () => el.classList.remove('animated'));
+    });
+
+    // ----- Music/Sound Toggle -----
+    const musicToggle = document.getElementById("musicToggle");
+    const bgMusic = document.getElementById("bgMusic");
+    const musicIcon = document.getElementById("musicIcon");
+    let musicPlaying = false;
+    function toggleMusic() {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicIcon.textContent = "🔊";
+        musicToggle.classList.remove("active");
+        musicPlaying = false;
+      } else {
+        bgMusic.play();
+        musicIcon.textContent = "🎵";
+        musicToggle.classList.add("active");
+        musicPlaying = true;
+      }
+    }
+    musicToggle.onclick = toggleMusic;
+    musicToggle.onkeydown = e => { if (e.key === "Enter" || e.key === " ") toggleMusic(); };
+
+    // ----- Command Palette -----
+    const palette = document.getElementById('commandPalette');
+    const paletteInput = document.getElementById('paletteInput');
+    const paletteResults = document.getElementById('paletteResults');
+    const commands = [
+      { label: "Go to Projects", action: ()=>document.getElementById('projects').scrollIntoView({behavior:'smooth'}) },
+      { label: "Go to Skills", action: ()=>document.getElementById('skills').scrollIntoView({behavior:'smooth'}) },
+      { label: "Go to Timeline", action: ()=>document.getElementById('timeline').scrollIntoView({behavior:'smooth'}) },
+      { label: "Go to Blog", action: ()=>document.getElementById('blog').scrollIntoView({behavior:'smooth'}) },
+      { label: "Toggle Theme: Anime", action: ()=>setTheme('anime') },
+      { label: "Toggle Theme: Cyberpunk", action: ()=>setTheme('cyberpunk') },
+      { label: "Toggle Theme: Light", action: ()=>setTheme('light') },
+      { label: "Toggle Music", action: toggleMusic },
+      { label: "Unlock All Badges", action: ()=>{["explore","timeline","blog"].forEach(unlockBadge);} }
+    ];
+    function openPalette() {
+      palette.style.display = "flex";
+      paletteInput.value = "";
+      paletteInput.focus();
+      renderPalette();
+    }
+    function closePalette() { palette.style.display = "none"; }
+    function renderPalette() {
+      let val = paletteInput.value.toLowerCase();
+      let filtered = commands.filter(c => c.label.toLowerCase().includes(val));
+      paletteResults.innerHTML = filtered.map((c,i)=>
+        `<div style="padding:7px 0;cursor:pointer;" tabindex="0" onmousedown="event.preventDefault();window.__cmdpRun(${i})">${c.label}</div>`
+      ).join("") || "<div style='color:#aaa'>No commands</div>";
+      window.__cmdpRun = i => { filtered[i].action(); closePalette(); }
+    }
+    paletteInput.oninput = renderPalette;
+    paletteInput.onkeydown = e => {
+      if (e.key === "Escape") closePalette();
+      if (e.key === "Enter") {
+        let filtered = commands.filter(c => c.label.toLowerCase().includes(paletteInput.value.toLowerCase()));
+        if (filtered.length) { filtered[0].action(); closePalette(); }
+      }
+    }
+    window.addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openPalette();
+      }
+    });
+
+    // ----- Interactive Timeline -----
+    document.querySelectorAll('#timeline .timeline-event').forEach((el,i) => {
+      el.onclick = () => {
+        document.querySelectorAll('#timeline .timeline-event').forEach(e=>e.classList.remove("active"));
+        el.classList.add("active");
+        unlockBadge("timeline");
+      };
+      el.onkeydown = e => { if(e.key==="Enter"||e.key===" ") el.click(); }
+    });
+
+    // ----- Achievement Badges (Gamified) -----
+    function unlockBadge(key) {
+      let el = document.getElementById('badge-' + key);
+      if (el && !el.classList.contains("unlocked")) {
+        el.classList.add("unlocked");
+        el.innerHTML += ' <span style="font-size:1.2em;">✅</span>';
+      }
+    }
+    document.querySelectorAll('.blog-card').forEach(el => {
+      el.onfocus = () => unlockBadge("blog");
+      el.onclick = () => unlockBadge("blog");
+    });
+
+    // ----- Forms: Animate Success and Reset -----
     document.getElementById('contactForm').onsubmit = function(e) {
       e.preventDefault();
-      document.getElementById('contactSuccess').style.display = "block";
-      setTimeout(()=>{ document.getElementById('contactSuccess').style.display = "none"; }, 2800);
-      this.reset();
+      fetch(this.action, { method: "POST", body: new FormData(this), headers: {Accept: "application/json"}})
+        .then(()=> {
+          document.getElementById('contactSuccess').style.display = "block";
+          setTimeout(()=>{ document.getElementById('contactSuccess').style.display = "none"; }, 2800);
+          this.reset();
+        });
+      return false;
     };
     document.getElementById('collabForm').onsubmit = function(e) {
       e.preventDefault();
-      document.getElementById('collabSuccess').style.display = "block";
-      setTimeout(()=>{ document.getElementById('collabSuccess').style.display = "none"; }, 2800);
-      this.reset();
+      fetch(this.action, { method: "POST", body: new FormData(this), headers: {Accept: "application/json"}})
+        .then(()=> {
+          document.getElementById('collabSuccess').style.display = "block";
+          setTimeout(()=>{ document.getElementById('collabSuccess').style.display = "none"; }, 2800);
+          this.reset();
+        });
+      return false;
     };
+
+    // ----- Accessibility: ARIA & Keyboard -----
+    document.querySelectorAll("a,button,[tabindex]").forEach(el=>{
+      el.setAttribute("tabindex", el.tabIndex || "0");
+    });
+
+    // ----- Lazy Load Images -----
+    document.querySelectorAll('img').forEach(img => {
+      img.setAttribute("loading", "lazy");
+    });
+
+    // ----- Easter Egg: Secret Combo -----
+    let keystack = [];
+    window.addEventListener('keydown', e => {
+      keystack.push(e.key);
+      if (keystack.slice(-6).join("") === "anime!") {
+        setTheme('anime');
+        alert("🌸 Anime Theme unlocked!");
+      }
+      if (keystack.length > 10) keystack = keystack.slice(-10);
+    });
+
   </script>
 </body>
 </html>
