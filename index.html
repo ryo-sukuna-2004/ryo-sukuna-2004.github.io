@@ -17,134 +17,735 @@
       background-image: url('https://wallpapercave.com/wp/wp7418473.jpg');
       background-size: cover;
       background-position: center;
-    }header {
-  background: rgba(0, 0, 0, 0.8);
-  width: 100%;
-  padding: 40px 0;
-  text-align: center;
-  border-bottom: 2px solid #ff007f;
-  box-shadow: 0 0 10px #ff007f77;
-}
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+    /* Theme Styles */
+    body.theme-anime {
+      background: linear-gradient(to bottom, #161a2a, #5f366e, #1e1f40);
+      color: #f6e5ff;
+      background-image: url('https://wallpapercave.com/wp/wp7418473.jpg');
+    }
+    body.theme-cyberpunk {
+      background: linear-gradient(120deg, #0f2027 0%, #2c5364 100%);
+      color: #00ffe0;
+      background-image: url('https://wallpapercave.com/wp/wp6535196.jpg');
+    }
+    body.theme-light {
+      background: linear-gradient(to bottom, #f8fafc, #e1e8ed);
+      color: #1a1a1a;
+      background-image: none;
+    }
 
-header h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3rem;
-  margin: 0;
-  color: #ff007f;
-  text-shadow: 0 0 10px #ff007f;
-}
+    .theme-switcher {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1001;
+      display: flex;
+      gap: 10px;
+    }
+    .theme-switcher button {
+      background: #222;
+      color: #fff;
+      border: 2px solid #ff007f;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: border 0.2s, background 0.2s;
+    }
+    .theme-switcher button.active, .theme-switcher button:hover {
+      border: 2px solid #00ffe0;
+      background: #111;
+    }
 
-header p {
-  font-size: 1.2rem;
-  color: #aaa;
-}
+    /* Preloader */
+    #preloader {
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(10,12,40,0.96);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s;
+    }
+    #preloader.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .loader {
+      border: 6px solid #ff007f;
+      border-top: 6px solid #00ffe0;
+      border-radius: 50%;
+      width: 60px; height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loader-text {
+      color: #ff007f;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      text-shadow: 0 0 5px #ff007f99;
+    }
 
-main {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 40px;
-  border-radius: 15px;
-  margin: 40px;
-  max-width: 900px;
-  box-shadow: 0 0 25px #00ffe099;
-}
+    /* Floating Cursor */
+    .custom-cursor {
+      position: fixed;
+      left: 0; top: 0;
+      width: 32px; height: 32px;
+      border: 2px solid #ff007f;
+      border-radius: 50%;
+      background: rgba(0,255,224,0.07);
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      z-index: 10000;
+      transition: background 0.2s, border 0.2s;
+      will-change: transform;
+    }
 
-.card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #ff007f;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ff007f33;
-}
+    header {
+      background: rgba(0, 0, 0, 0.8);
+      width: 100%;
+      padding: 40px 0;
+      text-align: center;
+      border-bottom: 2px solid #ff007f;
+      box-shadow: 0 0 10px #ff007f77;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      margin: 0;
+      color: #ff007f;
+      text-shadow: 0 0 10px #ff007f;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #aaa;
+    }
+    .standout-desc {
+      margin: 30px auto 0;
+      background: rgba(30, 16, 50, 0.8);
+      border-left: 6px solid #00ffe0;
+      padding: 20px 32px;
+      border-radius: 12px;
+      font-size: 1.17rem;
+      max-width: 900px;
+      box-shadow: 0 0 16px #00ffe055;
+      color: #fff;
+      font-family: 'Fira Code', monospace;
+    }
+    main {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 15px;
+      margin: 40px;
+      max-width: 900px;
+      box-shadow: 0 0 25px #00ffe099;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #ff007f;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ff007f33;
+    }
+    .card h2 {
+      color: #00ffe0;
+    }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
 
-.card h2 {
-  color: #00ffe0;
-}
+    .insta-follow {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .insta-follow button {
+      background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
+      color: white;
+      font-weight: bold;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .insta-follow button:hover {
+      transform: scale(1.05);
+    }
+    .terminal {
+      background: #0d0d0d;
+      color: #00ff88;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: 30px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      box-shadow: 0 0 10px #00ff8866;
+    }
 
-a {
-  color: #58a6ff;
-  text-decoration: none;
-}
+    /* Skill Bars */
+    .skills-section {
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    .skills-bar {
+      margin: 10px 0 24px 0;
+    }
+    .skill-label {
+      color: #00ffe0;
+      font-family: 'Fira Code', monospace;
+      font-size: 1.06rem;
+      margin-bottom: 2px;
+    }
+    .skill-bar-outer {
+      background: #333;
+      border-radius: 8px;
+      height: 18px;
+      width: 100%;
+      margin-bottom: 6px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #00ffe033 inset;
+    }
+    .skill-bar-inner {
+      height: 100%;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #00ffe0, #ff007fbb 80%);
+      width: 0;
+      transition: width 1.5s cubic-bezier(.68,-0.6,.32,1.6);
+    }
 
-a:hover {
-  text-decoration: underline;
-}
+    /* Timeline */
+    .timeline {
+      position: relative;
+      margin: 40px 0 30px 0;
+      padding-left: 30px;
+      border-left: 2px solid #00ffe0;
+    }
+    .timeline-event {
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      left: -11px; top: 7px;
+      width: 16px; height: 16px;
+      background: #ff007f;
+      border-radius: 50%;
+      border: 3px solid #00ffe0;
+      box-shadow: 0 0 10px #00ffe055;
+    }
+    .timeline-title {
+      font-weight: bold;
+      color: #00ffe0;
+      font-size: 1.13rem;
+    }
+    .timeline-desc {
+      color: #f2f2f2;
+      font-size: 1rem;
+      margin-left: 5px;
+    }
 
-.insta-follow {
-  text-align: center;
-  margin-top: 30px;
-}
+    /* Testimonials */
+    .testimonials-section {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    .testimonial {
+      background: rgba(30, 16, 50, 0.8);
+      border-left: 5px solid #ff007f;
+      margin: 10px 0;
+      padding: 16px 28px;
+      font-style: italic;
+      border-radius: 10px;
+      color: #fff;
+    }
+    .testimonial .author {
+      font-weight: bold;
+      color: #00ffe0;
+      margin-top: 6px;
+      font-style: normal;
+      font-size: 0.97rem;
+    }
 
-.insta-follow button {
-  background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
-  color: white;
-  font-weight: bold;
-  padding: 12px 24px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
+    /* Tech Stack */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+      margin: 24px 0 10px 0;
+    }
+    .tech-icon {
+      background: rgba(0, 255, 224, 0.08);
+      border: 2px solid #00ffe0;
+      border-radius: 8px;
+      padding: 18px 14px;
+      font-size: 2rem;
+      color: #00ffe0;
+      margin-bottom: 8px;
+      min-width: 60px;
+      text-align: center;
+      box-shadow: 0 0 10px #00ffe022;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tech-icon:hover {
+      transform: scale(1.12) rotate(-4deg);
+      box-shadow: 0 0 16px #ff007f99;
+      color: #ff007f;
+      border-color: #ff007f;
+    }
 
-.insta-follow button:hover {
-  transform: scale(1.05);
-}
+    /* Floating Symbols */
+    .floating-symbol {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      opacity: 0.47;
+      z-index: 0;
+      animation: floatSymbol 10s infinite linear;
+      color: #fff;
+      filter: drop-shadow(0 0 8px #ff007f88);
+      user-select: none;
+      transition: opacity 0.3s;
+    }
+    @keyframes floatSymbol {
+      0%   { transform: translateY(0) scale(1) rotate(0deg); }
+      50%  { transform: translateY(-60px) scale(1.1) rotate(8deg);}
+      100% { transform: translateY(0) scale(1) rotate(-8deg);}
+    }
 
-.terminal {
-  background: #0d0d0d;
-  color: #00ff88;
-  padding: 15px;
-  font-size: 0.9rem;
-  margin-top: 30px;
-  border-radius: 10px;
-  font-family: 'Fira Code', monospace;
-  box-shadow: 0 0 10px #00ff8866;
-}
+    /* Project Showcase */
+    .projects-section {
+      margin-top: 32px;
+      margin-bottom: 18px;
+    }
+    .project-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: flex-start;
+    }
+    .project-card {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid #00ffe0;
+      border-radius: 10px;
+      padding: 18px 22px;
+      min-width: 220px;
+      min-height: 120px;
+      box-shadow: 0 0 10px #00ffe033;
+      flex: 1 1 220px;
+      transition: box-shadow 0.2s, border 0.2s;
+      position: relative;
+    }
+    .project-card:hover {
+      box-shadow: 0 0 20px #ff007f77;
+      border: 1.5px solid #ff007f;
+    }
+    .project-title {
+      font-size: 1.1rem;
+      color: #00ffe0;
+      font-family: 'Fira Code', monospace;
+      margin-bottom: 7px;
+    }
+    .project-desc {
+      color: #e1e1e1;
+      font-size: 0.98rem;
+      margin-bottom: 10px;
+    }
+    .project-link {
+      color: #ff007f;
+      font-weight: bold;
+      font-size: 0.97rem;
+    }
 
-footer {
-  margin-top: auto;
-  padding: 20px;
-  color: #ccc;
-  text-align: center;
-  font-size: 0.9rem;
-}
+    /* Blog Section */
+    .blog-section {
+      margin: 32px 0 12px 0;
+    }
+    .blog-card {
+      background: rgba(255,255,255,0.07);
+      border-left: 4px solid #00ffe0;
+      padding: 20px 26px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+    .blog-title {
+      color: #ff007f;
+      font-size: 1.12rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .blog-desc {
+      color: #e1e1e1;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
 
+    /* Forms */
+    .form-section {
+      margin: 32px 0 18px 0;
+      background: rgba(30, 16, 50, 0.8);
+      border-radius: 12px;
+      padding: 20px 32px;
+      box-shadow: 0 0 16px #00ffe055;
+      color: #fff;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .form-section h2 {
+      color: #00ffe0;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #00ffe0;
+      background: #181a2b;
+      color: #fff;
+      margin-top: 7px;
+      margin-bottom: 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border: 1.5px solid #ff007f;
+    }
+    .form-btn {
+      background: linear-gradient(to right, #00ffe0, #ff007f);
+      color: #181a2b;
+      font-weight: bold;
+      padding: 10px 26px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      margin-top: 10px;
+    }
+    .form-btn:hover {
+      background: linear-gradient(to right, #ff007f, #00ffe0);
+      color: #fff;
+    }
+    .form-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .form-row > * {
+      flex: 1 1 200px;
+    }
+    .contact-success {
+      color: #00ff88;
+      margin-top: 10px;
+      font-size: 1.04rem;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main, .standout-desc { max-width: 98vw; padding: 20px !important;}
+    }
+    @media (max-width: 700px) {
+      .tech-stack { gap: 10px; }
+      .project-showcase { gap: 12px; }
+      .timeline { padding-left: 14px; }
+      .form-section { padding: 10px; }
+    }
+    @media (max-width: 480px) {
+      header h1 { font-size: 2rem;}
+      .standout-desc { font-size: 1rem; }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      color: #ccc;
+      text-align: center;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div>
+      <div class="loader"></div>
+      <div class="loader-text">Loading Ryo Sukuna | Anime x Code...</div>
+    </div>
+  </div>
+
+  <!-- Theme Switcher -->
+  <div class="theme-switcher">
+    <button id="theme-anime" title="Anime Mode">🌸</button>
+    <button id="theme-cyberpunk" title="Cyberpunk Mode">🤖</button>
+    <button id="theme-light" title="Light Mode">🌞</button>
+  </div>
+  <!-- Floating Custom Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <!-- Floating Symbols -->
+  <span class="floating-symbol" style="left: 10%; top: 20%;">★</span>
+  <span class="floating-symbol" style="left: 80%; top: 10%;">✦</span>
+  <span class="floating-symbol" style="left: 50%; top: 85%;">💻</span>
+  <span class="floating-symbol" style="left: 30%; top: 73%;">🎮</span>
+  <span class="floating-symbol" style="left: 70%; top: 50%;">⚡</span>
+  <span class="floating-symbol" style="left: 17%; top: 66%;">🌸</span>
+  <span class="floating-symbol" style="left: 62%; top: 36%;">🦾</span>
+
   <header>
     <h1>👾 Ryo Sukuna</h1>
     <p>Code like a curse, love like anime ❤️‍🔥</p>
-  </header>  <main>
+  </header>
+
+  <!-- Standout Description about the Website -->
+  <div class="standout-desc">
+    <strong>Ryo Sukuna | Anime x Code</strong> stands out with its immersive fusion of anime aesthetics and cutting-edge web design. It features dynamic theme switching (<b>anime</b>, <b>cyberpunk</b>, and <b>light</b>), a smooth preloader animation, a floating custom cursor, and animated skill bars showcasing expertise in JavaScript, React, Python, and more. Visitors can explore interactive GitHub project showcases, read tech blogs on anime-inspired development, and follow a visually detailed coding journey timeline. The site includes contact and collaboration forms, a responsive tech stack display, user testimonials, and playful floating symbols, all wrapped in a cyber-anime UI that brings coding creativity to life.
+  </div>
+
+  <main>
     <div class="card">
       <h2>✨ Who Am I?</h2>
       <p>I’m <strong>Ryo Sukuna</strong>, an anime soul trapped in a programmer’s mind. I build tools, scripts, and websites inspired by anime culture & cyberpunk dreams.</p>
-    </div><div class="card">
-  <h2>💻 Code Snippet:</h2>
-  <div class="terminal">
-    <pre><code>$ git clone https://github.com/ryo-sukuna-2004/anime-tools.git
+    </div>
+    <div class="card">
+      <h2>💻 Code Snippet:</h2>
+      <div class="terminal">
+        <pre><code>$ git clone https://github.com/ryo-sukuna-2004/anime-tools.git
 
-$ cd anime-tools $ ./install.sh</code></pre> </div> </div>
+$ cd anime-tools $ ./install.sh</code></pre>
+      </div>
+    </div>
 
-<div class="card">
-  <h2>🚀 Projects</h2>
-  <ul>
-    <li>🧭 WiFi Mapper (Shizuku-powered)</li>
-    <li>🌌 Anime Terminal Theme for Termux</li>
-    <li>🎮 Game Modding Scripts</li>
-  </ul>
-</div>
+    <!-- Projects Showcase -->
+    <div class="card projects-section">
+      <h2>🚀 Projects</h2>
+      <div class="project-showcase">
+        <div class="project-card">
+          <div class="project-title">🧭 WiFi Mapper (Shizuku-powered)</div>
+          <div class="project-desc">Map and analyze WiFi networks on Android using Shizuku for rootless power.</div>
+          <a href="https://github.com/ryo-sukuna-2004/wifi-mapper" target="_blank" class="project-link">View on GitHub</a>
+        </div>
+        <div class="project-card">
+          <div class="project-title">🌌 Anime Terminal Theme for Termux</div>
+          <div class="project-desc">A cyber-anime themed prompt and color scheme for Termux & bash. Stylish and hackable!</div>
+          <a href="https://github.com/ryo-sukuna-2004/anime-termux-theme" target="_blank" class="project-link">View on GitHub</a>
+        </div>
+        <div class="project-card">
+          <div class="project-title">🎮 Game Modding Scripts</div>
+          <div class="project-desc">Powerful scripts and tools for modding mobile and PC games, inspired by anime hacking scenes.</div>
+          <a href="https://github.com/ryo-sukuna-2004/game-modding-scripts" target="_blank" class="project-link">View on GitHub</a>
+        </div>
+      </div>
+    </div>
 
-<div class="insta-follow">
-  <h2>📸 تابعني على إنستقرام</h2>
-  <a href="https://instagram.com/ryo_sukuna_2004" target="_blank">
-    <button>@ryo_sukuna_2004</button>
-  </a>
-</div>
+    <!-- Animated Skills -->
+    <div class="card skills-section">
+      <h2>🛠️ Skills</h2>
+      <div class="skills-bar">
+        <div class="skill-label">JavaScript</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="90"></div></div>
+        <div class="skill-label">React</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="85"></div></div>
+        <div class="skill-label">Python</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="80"></div></div>
+        <div class="skill-label">Shell Scripting</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="75"></div></div>
+        <div class="skill-label">HTML/CSS</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="88"></div></div>
+        <div class="skill-label">Git & GitHub</div>
+        <div class="skill-bar-outer"><div class="skill-bar-inner" data-skill="82"></div></div>
+      </div>
+    </div>
 
-  </main>  <footer>
+    <!-- Timeline -->
+    <div class="card">
+      <h2>🕒 Coding Journey Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-event">
+          <div class="timeline-title">2021: Entered Anime x Code World</div>
+          <div class="timeline-desc">Started blending anime flair into web development projects.</div>
+        </div>
+        <div class="timeline-event">
+          <div class="timeline-title">2022: Published WiFi Mapper</div>
+          <div class="timeline-desc">Built and released a Shizuku-powered WiFi Mapper on GitHub.</div>
+        </div>
+        <div class="timeline-event">
+          <div class="timeline-title">2023: Launched Cyber-Anime Termux Theme</div>
+          <div class="timeline-desc">My cyberpunk anime prompt for Termux went viral in the anime-dev community.</div>
+        </div>
+        <div class="timeline-event">
+          <div class="timeline-title">2024: Tech Blogging & Modding Scripts</div>
+          <div class="timeline-desc">Started blogging about anime-inspired coding and released game modding tools.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="card">
+      <h2>⚙️ Tech Stack</h2>
+      <div class="tech-stack">
+        <span class="tech-icon" title="JavaScript">🟨 JS</span>
+        <span class="tech-icon" title="React">⚛️ React</span>
+        <span class="tech-icon" title="Python">🐍 Py</span>
+        <span class="tech-icon" title="Shell">💻 Bash</span>
+        <span class="tech-icon" title="HTML5">🌐 HTML5</span>
+        <span class="tech-icon" title="CSS3">🎨 CSS3</span>
+        <span class="tech-icon" title="Git">🔀 Git</span>
+        <span class="tech-icon" title="GitHub">🐙 GH</span>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="card testimonials-section">
+      <h2>🗣️ Testimonials</h2>
+      <div class="testimonial">
+        "Ryo's cyber-anime UI is the most creative site I've seen – it's like stepping into an anime hacker's lair!"
+        <div class="author">— @kaizen_dev (GitHub)</div>
+      </div>
+      <div class="testimonial">
+        "I learned so much from the tech blogs and the timeline is visually awesome!"
+        <div class="author">— @mikanime (Twitter)</div>
+      </div>
+    </div>
+
+    <!-- Blog Section -->
+    <div class="card blog-section">
+      <h2>📖 Tech Blog</h2>
+      <div class="blog-card">
+        <div class="blog-title">How Anime Inspires My Coding Journey</div>
+        <div class="blog-desc">A deep dive into how anime aesthetics and storytelling influence my approach to web design and development.</div>
+        <a href="https://github.com/ryo-sukuna-2004/tech-blog" target="_blank" class="project-link">Read Blog</a>
+      </div>
+      <div class="blog-card">
+        <div class="blog-title">Cyberpunk UI Tricks for Modern Websites</div>
+        <div class="blog-desc">Tutorials and code snippets to give your web projects a futuristic, anime-inspired look.</div>
+        <a href="https://github.com/ryo-sukuna-2004/tech-blog" target="_blank" class="project-link">Read Blog</a>
+      </div>
+    </div>
+
+    <!-- Contact & Collaboration Forms -->
+    <div class="form-section">
+      <h2>📬 Contact Me</h2>
+      <form id="contactForm" autocomplete="off">
+        <div class="form-row">
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your Name" required>
+          <input class="form-input" type="email" id="email" name="email" placeholder="Your Email" required>
+        </div>
+        <textarea class="form-textarea" id="message" name="message" rows="4" placeholder="Your message..." required></textarea>
+        <button class="form-btn" type="submit">Send Message</button>
+        <div id="contactSuccess" class="contact-success" style="display:none;">
+          Thank you for your message! 🚀
+        </div>
+      </form>
+    </div>
+    <div class="form-section">
+      <h2>🤝 Collaborate</h2>
+      <form id="collabForm" autocomplete="off">
+        <div class="form-row">
+          <input class="form-input" type="text" id="collabName" name="collabName" placeholder="Your Name" required>
+          <input class="form-input" type="email" id="collabEmail" name="collabEmail" placeholder="Your Email" required>
+        </div>
+        <input class="form-input" type="text" id="project" name="project" placeholder="Project Idea / Link" required>
+        <textarea class="form-textarea" id="collabMessage" name="collabMessage" rows="3" placeholder="Short proposal..." required></textarea>
+        <button class="form-btn" type="submit">Send Proposal</button>
+        <div id="collabSuccess" class="contact-success" style="display:none;">
+          Collab request sent! I'll get in touch soon. ✨
+        </div>
+      </form>
+    </div>
+
+    <div class="insta-follow">
+      <h2>📸 تابعني على إنستقرام</h2>
+      <a href="https://instagram.com/ryo_sukuna_2004" target="_blank">
+        <button>@ryo_sukuna_2004</button>
+      </a>
+    </div>
+  </main>
+  <footer>
     © 2025 Ryo Sukuna — Built with 💻 and 💖 under the moonlight of Akihabara.
   </footer>
+  <script>
+    // Preloader
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 750);
+    });
+
+    // Theme Switcher
+    function setTheme(theme) {
+      document.body.classList.remove('theme-anime','theme-cyberpunk','theme-light');
+      document.body.classList.add('theme-' + theme);
+      document.querySelectorAll('.theme-switcher button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('theme-' + theme).classList.add('active');
+      localStorage.setItem('theme', theme);
+    }
+    document.getElementById('theme-anime').onclick = () => setTheme('anime');
+    document.getElementById('theme-cyberpunk').onclick = () => setTheme('cyberpunk');
+    document.getElementById('theme-light').onclick = () => setTheme('light');
+    // Persistent Theme
+    (() => {
+      const saved = localStorage.getItem('theme') || 'anime';
+      setTheme(saved);
+    })();
+
+    // Floating Custom Cursor
+    const cursor = document.getElementById('customCursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.transform = `translate(${e.clientX-16}px,${e.clientY-16}px)`;
+    });
+    document.addEventListener('mousedown', () => { cursor.style.background = 'rgba(255,0,127,0.13)'; cursor.style.borderColor = '#00ffe0';});
+    document.addEventListener('mouseup', () => { cursor.style.background = 'rgba(0,255,224,0.07)'; cursor.style.borderColor = '#ff007f';});
+
+    // Animate Skill Bars
+    function animateSkillBars() {
+      document.querySelectorAll('.skill-bar-inner').forEach(el => {
+        el.style.width = el.getAttribute('data-skill') + '%';
+      });
+    }
+    let skillBarsAnimated = false;
+    function handleScrollSkillBars() {
+      const skills = document.querySelector('.skills-section');
+      if (!skillBarsAnimated && skills.getBoundingClientRect().top < window.innerHeight - 80) {
+        animateSkillBars();
+        skillBarsAnimated = true;
+      }
+    }
+    window.addEventListener('scroll', handleScrollSkillBars);
+    window.addEventListener('DOMContentLoaded', handleScrollSkillBars);
+
+    // Floating Symbols Animation Speed Randomization
+    document.querySelectorAll('.floating-symbol').forEach((el, i) => {
+      el.style.animationDuration = (7 + Math.random() * 6) + 's';
+      el.style.opacity = (0.22 + Math.random() * 0.5).toFixed(2);
+    });
+
+    // Dummy Contact Form Handler
+    document.getElementById('contactForm').onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById('contactSuccess').style.display = "block";
+      setTimeout(()=>{ document.getElementById('contactSuccess').style.display = "none"; }, 2800);
+      this.reset();
+    };
+    document.getElementById('collabForm').onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById('collabSuccess').style.display = "block";
+      setTimeout(()=>{ document.getElementById('collabSuccess').style.display = "none"; }, 2800);
+      this.reset();
+    };
+  </script>
 </body>
 </html>
