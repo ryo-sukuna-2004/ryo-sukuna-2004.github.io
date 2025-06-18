@@ -81,16 +81,6 @@
       z-index: -1;
     }
 
-    /* Particles Container */
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
     /* Preloader */
     #preloader {
       position: fixed;
@@ -556,6 +546,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      background-color: #2a2a72;
+      background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
     }
     
     .project-title {
@@ -956,11 +948,25 @@
       animation: float 9s ease-in-out infinite;
       animation-delay: 0.5s;
     }
+    
+    /* Error Message */
+    .error-message {
+      background: rgba(255, 0, 0, 0.2);
+      border: 1px solid #ff5555;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+      color: #ffaaaa;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div id="preloader">
     <div class="loader"></div>
+    <div class="error-message" id="preloader-error">
+      Loading is taking longer than expected. If the problem persists, please try refreshing the page.
+    </div>
   </div>
 
   <!-- Floating Elements -->
@@ -969,8 +975,6 @@
   <div class="floating">◉</div>
   <div class="floating">◇</div>
 
-  <div id="particles-js"></div>
-  
   <div class="custom-cursor"></div>
   <div class="cursor-inner"></div>
 
@@ -1064,23 +1068,25 @@ $ ./install.sh
       <div class="card">
         <h2>🚀 My Latest GitHub Projects</h2>
         <ul id="github-projects">
-          <li>Loading projects...</li>
+          <li>🌟 Anime Tools - CLI utilities for anime creators</li>
+          <li>🚀 Cyber Dash - Cyberpunk-themed dashboard</li>
+          <li>💻 Neon UI Framework - CSS framework with neon aesthetics</li>
         </ul>
         <div class="projects-grid">
           <div class="project-item" onclick="openProject('anime-tools')">
-            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070" alt="Project" class="project-image">
+            <div class="project-image"></div>
             <h3 class="project-title">Anime Tools</h3>
           </div>
           <div class="project-item" onclick="openProject('cyber-dash')">
-            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1974" alt="Project" class="project-image">
+            <div class="project-image"></div>
             <h3 class="project-title">Cyber Dash</h3>
           </div>
           <div class="project-item" onclick="openProject('neon-ui')">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070" alt="Project" class="project-image">
+            <div class="project-image"></div>
             <h3 class="project-title">Neon UI Framework</h3>
           </div>
           <div class="project-item" onclick="openProject('manga-reader')">
-            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=2076" alt="Project" class="project-image">
+            <div class="project-image"></div>
             <h3 class="project-title">Manga Reader Pro</h3>
           </div>
         </div>
@@ -1105,6 +1111,7 @@ $ ./install.sh
           </div>
           
           <button class="submit-btn" onclick="sendMessage()">Send Message</button>
+          <div class="error-message" id="contact-error"></div>
         </div>
         
         <div class="contact-card">
@@ -1312,6 +1319,7 @@ $ ./install.sh
       </div>
       
       <button class="submit-btn" onclick="sendCollaboration()">Send Request</button>
+      <div class="error-message" id="collab-error"></div>
     </div>
     
     <!-- خريطة تفاعلية -->
@@ -1341,22 +1349,18 @@ $ ./install.sh
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    // Preloader
-    window.addEventListener('load', function() {
-      const preloader = document.getElementById('preloader');
-      setTimeout(() => {
-        preloader.style.opacity = '0';
-        preloader.style.visibility = 'hidden';
-        
-        // Initialize animations after page load
-        animateSkills();
-        typeWriter();
-        initParticles();
-        initCustomCursor();
-      }, 1500);
-    });
+    // Preloader fallback
+    const preloader = document.getElementById('preloader');
+    const preloaderError = document.getElementById('preloader-error');
+    
+    // Show error message if preloader takes too long
+    const preloaderTimeout = setTimeout(() => {
+      preloaderError.style.display = 'block';
+    }, 5000);
+    
+    // Set default theme
+    document.body.className = 'anime-theme';
 
     // Theme Switching
     function setTheme(theme) {
@@ -1367,6 +1371,9 @@ $ ./install.sh
         btn.classList.remove('active');
       });
       document.querySelector(`.theme-btn.${theme}`).classList.add('active');
+      
+      // Save theme preference
+      localStorage.setItem('theme', theme);
     }
 
     function toggleTheme() {
@@ -1375,44 +1382,6 @@ $ ./install.sh
       const currentIndex = themes.indexOf(currentTheme);
       const nextIndex = (currentIndex + 1) % themes.length;
       setTheme(themes[nextIndex]);
-    }
-
-    // Initialize particles
-    function initParticles() {
-      particlesJS('particles-js', {
-        particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
-          color: { value: "#ff007f" },
-          shape: { type: "circle" },
-          opacity: { value: 0.5, random: true },
-          size: { value: 3, random: true },
-          line_linked: {
-            enable: true,
-            distance: 150,
-            color: "#00ffe0",
-            opacity: 0.4,
-            width: 1
-          },
-          move: {
-            enable: true,
-            speed: 2,
-            direction: "none",
-            random: true,
-            straight: false,
-            out_mode: "out",
-            bounce: false
-          }
-        },
-        interactivity: {
-          detect_on: "canvas",
-          events: {
-            onhover: { enable: true, mode: "repulse" },
-            onclick: { enable: true, mode: "push" },
-            resize: true
-          }
-        },
-        retina_detect: true
-      });
     }
 
     // Typewriter effect
@@ -1439,28 +1408,6 @@ $ ./install.sh
         bar.style.width = width + '%';
       });
     }
-
-    // GitHub projects
-    const username = 'ryo-sukuna-2004';
-
-    async function fetchRepos() {
-      try {
-        const response = await fetch(`https://api.github.com/users/${username}/repos`);
-        const repos = await response.json();
-        const projectsList = document.getElementById('github-projects');
-        projectsList.innerHTML = '';
-
-        repos.slice(0, 5).forEach(repo => {
-          const item = document.createElement('li');
-          item.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a> - ⭐ ${repo.stargazers_count} - ${repo.description || ''}`;
-          projectsList.appendChild(item);
-        });
-      } catch (error) {
-        console.error('Error fetching GitHub projects:', error);
-        projectsList.innerHTML = '<li>Unable to load projects. Please try again later.</li>';
-      }
-    }
-    fetchRepos();
 
     // Custom cursor
     function initCustomCursor() {
@@ -1549,15 +1496,16 @@ $ ./install.sh
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const message = document.getElementById('message').value;
+      const errorElement = document.getElementById('contact-error');
       
       if (!name || !email || !message) {
-        alert('Please fill in all fields');
+        errorElement.textContent = 'Please fill in all fields';
+        errorElement.style.display = 'block';
         return;
       }
       
-      // Play sound effect
-      const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-3001.mp3');
-      sound.play();
+      // Hide error
+      errorElement.style.display = 'none';
       
       // Show success message
       alert(`Thanks for your message, ${name}! I'll get back to you soon.`);
@@ -1574,15 +1522,16 @@ $ ./install.sh
       const email = document.getElementById('collab-email').value;
       const project = document.getElementById('collab-project').value;
       const details = document.getElementById('collab-details').value;
+      const errorElement = document.getElementById('collab-error');
       
       if (!name || !email || !project || !details) {
-        alert('Please fill in all fields');
+        errorElement.textContent = 'Please fill in all fields';
+        errorElement.style.display = 'block';
         return;
       }
       
-      // Play sound effect
-      const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3');
-      sound.play();
+      // Hide error
+      errorElement.style.display = 'none';
       
       // Show success message
       alert(`Thank you ${name}! Your collaboration request has been sent. I'll review it and get back to you soon.`);
@@ -1593,6 +1542,41 @@ $ ./install.sh
       document.getElementById('collab-project').value = '';
       document.getElementById('collab-details').value = '';
     }
+
+    // Load theme preference
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      }
+    }
+    
+    // Initialize everything after page load
+    window.addEventListener('load', function() {
+      // Hide preloader
+      preloader.style.opacity = '0';
+      preloader.style.visibility = 'hidden';
+      clearTimeout(preloaderTimeout);
+      
+      // Initialize animations
+      animateSkills();
+      typeWriter();
+      initCustomCursor();
+      loadTheme();
+    });
+    
+    // Start essential functions immediately
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize custom cursor
+      initCustomCursor();
+      
+      // Set event listeners for theme buttons
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          setTheme(this.classList[2]);
+        });
+      });
+    });
   </script>
 </body>
 </html>
